@@ -93,3 +93,29 @@ public class Solution {
 
 Solution 2-->
 	
+import java.util.* ;
+import java.io.*; 
+import java.util.*;
+public class Solution {
+	public static int solveUtil(int n, ArrayList<Integer> arr){
+    int prev = arr.get(0);
+	int prev2 = 0;
+    for(int i=1; i<n; i++){
+    	int pick= arr.get(i);
+		if(i>1){
+			pick += prev2;
+		}
+    	int nonPick = 0 + prev;
+	
+     int curr=Math.max(pick, nonPick);
+	 prev2 = prev;
+	 prev = curr;
+	}
+	return prev;
+}
+	public static int maximumNonAdjacentSum(ArrayList<Integer> nums) {
+		// Write your code here.
+		int n=nums.size();
+		return solveUtil(n, nums);
+	}
+}
