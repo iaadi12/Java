@@ -34,44 +34,47 @@ In the second test case for the given matrix, the maximum path sum will be 10->7
   
   
   
-  import java.util.* ;
+import java.util.* ;
 import java.io.*; 
-
 public class Solution {
-	public static int getMaxPathSum(int[][] matrix) {
-		// // Write your code here
-		int n = matrix.length;
-		int m = matrix[0].length;
-		
-		int[] prev = new int[m];
+	static int maxChocoUtil(int i, int j1, int j2, int n, int m, int[][] grid, int[][][] dp) {
+    if (j1 < 0 || j1 >= m || j2 < 0 || j2 >= m)
+      return (int)(Math.pow(-10, 9));
 
-		for(int j=0; j<m; j++) prev[j] = matrix[0][j];
+    if (i == n - 1) {
+      if (j1 == j2)
+        return grid[i][j1];
+      else
+        return grid[i][j1] + grid[i][j2];
+    }
 
-		for(int i=1; i<n; i++){
-			int[] curr = new int[m];
-			for(int j=0; j<m; j++){
+    if (dp[i][j1][j2] != -1)
+      return dp[i][j1][j2];
 
-				int s = matrix[i][j] + prev[j]; 
+    int maxi = Integer.MIN_VALUE;
+    for (int di = -1; di <= 1; di++) {
+      for (int dj = -1; dj <= 1; dj++) {
+        int ans;
+        if (j1 == j2)
+          ans = grid[i][j1] + maxChocoUtil(i + 1, j1 + di, j2 + dj, n, m, grid, dp);
+        else
+          ans = grid[i][j1] + grid[i][j2] + maxChocoUtil(i + 1, j1 + di, j2 + dj,n,m, grid, dp);
+        maxi = Math.max(maxi, ans);
+      }
+    }
+    return dp[i][j1][j2] = maxi;
+  }
+	public static int maximumChocolates(int r, int c, int[][] grid) {
+		// Write your code here.
+		int dp[][][] = new int[r][c][c];
 
-				int ld = matrix[i][j];
-				if(j-1 >= 0){
-					ld += prev[j-1];
-				}
-				else ld += (int)Math.pow(-10,9);
-				int rd = matrix[i][j];
-				if(j+1 < m){
-					rd += prev[j+1];
-				}
-				else rd += (int)Math.pow(-10,9);
-				curr[j] = Math.max(s,Math.max(ld,rd));
-			}
-			prev = curr;
-		}
+    	for (int row1[][]: dp) {
+    	  for (int row2[]: row1) {
+    	    Arrays.fill(row2, -1);
+    	  }
+    	}
 
-		int maxi = (int)Math.pow(-10,9);
-		for(int j=0; j<m; j++){
-			maxi = Math.max(maxi, prev[j]);
-		}
-		return maxi;
+		return maxChocoUtil(0,0,c-1,r,c,grid,dp);
+
 	}
 }
