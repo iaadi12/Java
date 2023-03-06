@@ -85,3 +85,37 @@ public class Solution {
     }
 }
   
+SPace Optimization --->>>>
+
+import java.util.* ;
+
+// import sun.java2d.marlin.DPathConsumer2D;
+
+import java.io.*; 
+public class Solution {
+    public static int findWays(int num[], int tar) {
+        // Write your code here..
+        int n=num.length;
+        int[] prev = new int[tar+1];
+
+        prev[0] = 1;
+
+        if(num[0] <= tar) prev[num[0]]=1;
+
+        for(int ind=1; ind<n; ind++){
+            int[] curr = new int[tar+1];
+            curr[0] =1;
+            for(int sum = 0; sum<=tar; sum++){
+                int nontake = prev[sum];
+                int take = 0;
+
+                if(num[ind] <= sum) 
+                    take = prev[sum-num[ind]];
+
+                curr[sum] = take+nontake;
+            }
+            prev = curr;
+        }
+        return prev[tar];
+    }
+}
