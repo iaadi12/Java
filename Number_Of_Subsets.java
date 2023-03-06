@@ -48,6 +48,11 @@ public class Solution {
     // {
     //     if(sum == 0) return 1;
     //     if(ind == 0) return nums[0]==sum?1:0;
+            if(i == 0){
+                     if(target ==0 || arr[0]==0) return 1;
+                     if(target == 0 || target == arr[0]) return 1;
+                     return 0;
+                 }
 
     //     if(dp[ind][sum] != -1) return dp[ind][sum];
 
